@@ -1,0 +1,39 @@
+{
+  "name": "pacman-ts",
+  "devDependencies": {
+    "@pota/cli": "^1.0.1",
+    "@pota/webpack-skeleton": "^2.2.5"
+  },
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --project tsconfig.json --noEmit --noUnusedLocals",
+    "fix": "run-s fix:* && npm run format",
+    "fix:eslint": "npm run lint:eslint -- --fix",
+    "format": "prettier \"**/*.{js,jsx,ts,tsx,scss,md,json}\" --write --loglevel warn",
+    "lint": "run-s lint:*",
+    "lint:eslint": "eslint . --ext .ts,.tsx --cache --cache-location node_modules/.cache/.eslintcache",
+    "rsync": "cross-env rsync -avPx dist/* ${npm_package_name}@${npm_package_config_host}:~/public/ --delete",
+    "dev": "pota dev",
+    "build": "pota build",
+    "prepare": "husky install"
+  },
+  "config": {
+    "host": "TODO: Add a host name."
+  },
+  "browserslist": [
+    "last 2 versions",
+    "not ie <= 11, not ie_mob <= 11",
+    "not dead"
+  ],
+  "prettier": "@mediamonks/prettier-config",
+  "engines": {
+    "node": ">=16",
+    "npm": ">=7",
+    "yarn": "unsupported"
+  },
+  "dependencies": {
+    "@mediamonks/eslint-config-base": "^2.0.0",
+    "husky": "^7.0.0",
+    "lint-staged": "^12.3.1"
+  }
+}
