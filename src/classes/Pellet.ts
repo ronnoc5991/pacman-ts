@@ -1,5 +1,5 @@
-import { CollidableObject } from '@/classes/CollidableObject/CollidableObject';
 import type { Position } from '@/types/Position';
+import { CollidableObject } from './CollidableObject';
 
 export class Pellet extends CollidableObject {
   public hasBeenEaten: boolean;
