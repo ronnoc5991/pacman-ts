@@ -1,4 +1,4 @@
-type CellValue = 'b';
+export type CellValue = 'b';
 
 type CellValueMeaning = 'border';
 

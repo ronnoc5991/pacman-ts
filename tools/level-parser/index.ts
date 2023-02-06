@@ -1,14 +1,9 @@
 const fs = require('fs');
-import { cellValueMap } from './config/cellValueMap';
+import { getBorderCoordinates } from './src/utils/getBorderCoordinates';
 
 const levelConfigsDirectory = '../../src/config/levels';
 const rawLevelsDirectory = `${levelConfigsDirectory}/raw`;
 const processedLevelsDirectory = `${levelConfigsDirectory}/processed`;
-
-// process each json, extracting the information that we want from it
-// create an object with that information
-// put that information in a file in ../src/config/levels/processed/0.ts
-// ensure that that object conforms to the type of LevelConfig
 
 const numberOfRawLevelConfigs = fs.readdirSync(rawLevelsDirectory).length;
 
@@ -27,15 +22,21 @@ Array.from({ length: numberOfRawLevelConfigs }).forEach((_, index) => {
   }
 });
 
-function getBorderCoordinates(grid: Array<Array<string>>) {
-  const borders: Array<{ x: number; y: number }> = [];
-  grid.forEach((row, rowIndex) => {
-    row.map((cellValue, columnIndex) => {
-      if (cellValue === cellValueMap.border) {
-        // should type out these things
-        borders.push({ x: columnIndex, y: rowIndex });
-      }
-    });
-  });
-  return borders;
-}
+const getLevelConfigName = (levelNumber: number) => `level${levelNumber}`;
+
+const getImportStatement = (fileNumber: number) =>
+  `import ${getLevelConfigName(fileNumber)} from './${fileNumber}.json';\n`;
+
+const importStatements = Array.from({ length: numberOfRawLevelConfigs })
+  .map((_, index) => getImportStatement(index))
+  .join('');
+
+const levelConfigs = Array.from({ length: numberOfRawLevelConfigs }).map((_, index) =>
+  getLevelConfigName(index),
+);
+
+const exportStatment = `export default [${levelConfigs}];`;
+
+const content = `${importStatements}\n${exportStatment}`;
+
+fs.writeFileSync(`${processedLevelsDirectory}/index.ts`, content);

@@ -1,5 +1,5 @@
+import type { CollidableObject } from '@/classes/CollidableObject';
 import type { Collision } from '@/types/Collision';
-import type { CollidableObject } from '@/classes/CollidableObject/CollidableObject';
 
 const areCentersColliding = (
   { position: positionOne }: CollidableObject,
