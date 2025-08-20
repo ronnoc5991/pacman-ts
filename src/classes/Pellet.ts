@@ -1,13 +1,15 @@
-import type { Position } from '@/types/Position';
-import { CollidableObject } from './CollidableObject';
+import { CollidableObject, CollidableObjectArgs } from './CollidableObject';
+
+export type PelletArgs = CollidableObjectArgs & {
+  isPowerPellet: boolean;
+};
 
 export class Pellet extends CollidableObject {
-  public hasBeenEaten: boolean;
+  public hasBeenEaten: boolean = false;
   public isPowerPellet: boolean;
 
-  public constructor(position: Position, size: number, isPowerPellet: boolean = false) {
-    super(position, size);
-    this.hasBeenEaten = false;
+  public constructor({ isPowerPellet, ...superArgs }: PelletArgs) {
+    super(superArgs);
     this.isPowerPellet = isPowerPellet;
   }
 }

@@ -1,7 +1,9 @@
-const fs = require('fs');
-import { getBorderCoordinates } from './src/utils/getBorderCoordinates';
+import fs from 'fs';
+import type { Grid } from './types/Grid';
+import type { LevelConfig } from '../../types/LevelConfig';
+import getWallConfigs from './utils/getWallConfigs';
 
-const levelConfigsDirectory = '../../src/config/levels';
+const levelConfigsDirectory = './src//config/levels';
 const rawLevelsDirectory = `${levelConfigsDirectory}/raw`;
 const processedLevelsDirectory = `${levelConfigsDirectory}/processed`;
 
@@ -9,14 +11,13 @@ const numberOfRawLevelConfigs = fs.readdirSync(rawLevelsDirectory).length;
 
 Array.from({ length: numberOfRawLevelConfigs }).forEach((_, index) => {
   try {
-    const data = fs.readFileSync(`${rawLevelsDirectory}/${index}.json`);
-    const parsedData = JSON.parse(data);
+    const data = fs.readFileSync(`${rawLevelsDirectory}/${index}.json`, { encoding: 'utf-8' });
+    const grid: Grid = JSON.parse(data);
 
-    const processedData = {
-      borders: getBorderCoordinates(parsedData),
+    const levelConfig: LevelConfig = {
+      wallConfigs: getWallConfigs(grid),
     };
-    // TODO: given this data, we need to create the functions that parse the data
-    fs.writeFileSync(`${processedLevelsDirectory}/${index}.json`, JSON.stringify(processedData));
+    fs.writeFileSync(`${processedLevelsDirectory}/${index}.json`, JSON.stringify(levelConfig));
   } catch (err) {
     console.error(err);
   }
@@ -35,8 +36,8 @@ const levelConfigs = Array.from({ length: numberOfRawLevelConfigs }).map((_, ind
   getLevelConfigName(index),
 );
 
-const exportStatment = `export default [${levelConfigs}];`;
+const exportStatement = `export default [${levelConfigs}];`;
 
-const content = `${importStatements}\n${exportStatment}`;
+const content = `${importStatements}\n${exportStatement}`;
 
 fs.writeFileSync(`${processedLevelsDirectory}/index.ts`, content);

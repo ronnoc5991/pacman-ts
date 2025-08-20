@@ -2,10 +2,12 @@
   "name": "pacman-ts",
   "devDependencies": {
     "@pota/cli": "^1.0.1",
-    "@pota/webpack-skeleton": "^2.2.5"
+    "@pota/webpack-skeleton": "^2.2.5",
+    "tsx": "^4.20.4"
   },
   "type": "module",
   "scripts": {
+    "generate-levels": "npx tsx ./src/tools/level-parser/index.ts",
     "typecheck": "tsc --project tsconfig.json --noEmit --noUnusedLocals",
     "fix": "run-s fix:* && npm run format",
     "fix:eslint": "npm run lint:eslint -- --fix",

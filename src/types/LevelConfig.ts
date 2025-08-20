@@ -1,5 +1,7 @@
-import type { Position } from './Position';
+import type { WallArgs } from '@/classes/Wall';
+
+export type WallConfig = WallArgs;
 
 export type LevelConfig = {
-  borders: Array<Position>;
+  wallConfigs: Array<WallConfig>;
 };
